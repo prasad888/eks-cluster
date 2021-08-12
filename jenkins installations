@@ -1,0 +1,68 @@
+#!/bin/bash
+sudo yum -y update
+
+
+echo "Install git"
+yum install -y git
+ #install the jenkins
+ cd /opt
+ #!/bin/bash 
+#Download the java
+cd /tmp 
+wget -c --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.rpm
+#install
+rpm -ivh jdk-8u131-linux-x64.rpm
+#delete the rpm after java installatin
+rm -f jdk-8u131-linux-x64.rpm
+#maven
+#!/bin/bash
+#install maven in /opt
+cd /opt
+#download the zip
+wget https://mirrors.estointernet.in/apache/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.zip
+#extract 
+unzip apache-maven-3.8.1-bin.zip
+#rename
+mv apache-maven-3.8.1 maven38
+#change the permissions
+chmod -R 700 maven38
+#delte the zip
+rm -f apache-maven-3.8.1-bin.zip
+
+#jenkins installatin
+#Enable EPEL
+wget -O /etc/yum.repos.d/jenkins.repo \
+    https://pkg.jenkins.io/redhat-stable/jenkins.repo
+#installing with rpm
+rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+#update
+yum update -y
+#install jenkins 
+yum install jenkins -y 
+#start 
+systemctl start jenkins 
+#os level service
+systemctl enable jenkins 
+#check status
+systemctl status jenkins
+#docker
+yum install docker 
+
+#Download the kubctl
+cd /opt
+curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.20.4/2021-04-12/bin/linux/amd64/kubectl
+chmod 755 kubectl
+mv kubectl /usr/local/bin/
+#download the terraform
+wget https://releases.hashicorp.com/terraform/1.0.1/terraform_1.0.1_linux_amd64.zip
+unzip terraform_1.0.1_linux_amd64.zip
+chmod 755 terraform
+mv terraform /usr/local/bin/
+#download the iam _authenticater
+curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/aws-iam-authenticator
+chmod 755 aws-iam-authenticator
+mv aws-iam-authenticator /usr/local/bin/
+
+#copy the terrform cluster output in jenkins 
+mkdir .kube 
+vi config (copy the output)
